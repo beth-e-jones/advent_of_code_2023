@@ -19,25 +19,42 @@ calibration_points_df.head()
 calibration_points_list = calibration_points_df.iloc[:, 0].tolist()
 print(type(calibration_points_list))
 
+# %% 
+print(calibration_points_list)
+
 # %%
 def identify_calibration_points(calibration_points_list):
     numeric_calibration_points = []
     
     for point in calibration_points_list:
-        pattern = r"/d"
+        pattern = r"\d"
         calibration_point = re.findall(pattern,point)
         numeric_calibration_points.append(calibration_point)
     
-    print(numeric_calibration_points)
+    return numeric_calibration_points
          
 identify_calibration_points(calibration_points_list)
 
 # %%
-# def find_digits(calibration_points_list):
-#     for point in calibration_points_list:
-#         if "0123456789" in point:
-            
+def find_digits(calibration_points_list):
+    numeric_calibrations_unjoined = identify_calibration_points(
+        calibration_points_list
+    )
+    
+    joined_digits_list = []
+    
+    for list_of_digits in numeric_calibrations_unjoined:
+        combined_digits = "".join(list_of_digits)
+        joined_digits_list.append(combined_digits)
+        print(combined_digits)
+    
+    #for combined_number in joined_digits_list:
         
+
+# %%
+find_digits(calibration_points_list)
+            
+# %%        
         
         
         # end up with list of lists, or similar
