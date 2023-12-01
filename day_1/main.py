@@ -1,26 +1,26 @@
-# %%
+
 import pandas as pd
 import re
 
-# %%
+
 # Set datapath for the input data
 DATAPATH = "input.txt"
 
-# %%
+
 # Read in .txt file from the stored datapath
 calibration_points_df = pd.read_table(DATAPATH,
                                       header=None)
 
-# %%
+
 # Check data read in successfully
 calibration_points_df.head()
 
-# %%
+
 # Convert first column of dataframe to a list
 calibration_points_list = calibration_points_df.iloc[:, 0].tolist()
 
 
-# %%
+
 def identify_calibration_points(calibration_points_list):
     """Takes each string item in the list of calibration points and identifies
     the digits contained in the item, appends them to a list of digits, and
@@ -56,7 +56,7 @@ def identify_calibration_points(calibration_points_list):
 # Call the function using the input from advent of code as the list of strings        
 identify_calibration_points(calibration_points_list)
 
-# %%
+
 def find_digits(calibration_points_list):
     """Joins the separated digits found in every string into a single string of
     digits, identifies the first and last (where appplicable) number in each 
@@ -74,7 +74,8 @@ def find_digits(calibration_points_list):
     -------
     summed_calibrations: Integer
         This is the sum of all contents of the list of first and last digits
-        for the joined number list 
+        for the joined number list. Where the number is a single digit e.g., 7
+        this is added as 77 following the Advent of Code instructions.
     """
     # Set variable as the output of the identify_calibration_points() function
     numeric_calibrations_unjoined = identify_calibration_points(
@@ -92,9 +93,13 @@ def find_digits(calibration_points_list):
         joined_digits_list.append(combined_digits)
     
     for number in joined_digits_list:
+        # If single digit number, add same digit twice to make 2 digit number
         if len(number) <= 1:
             first_last_digit = str(number[0])+str(number[0])
+            # Append to list of calibration values
             first_last_digits_list.append(int(first_last_digit))
+        # Otherwise, combine first and last character and append to the list of 
+        # calibration values
         else:
             first_last_digit = str(number[0]) + str(number[-1])
             first_last_digits_list.append(int(first_last_digit))
@@ -105,12 +110,38 @@ def find_digits(calibration_points_list):
               {summed_calibrations})
 
 
-# %%
+
 find_digits(calibration_points_list)
-            
-# %%        
- """Part 2"""       
-       
-     #replace all       
-            
-            
+                  
+"""Part 2"""
+
+def words_to_digits(calibration_points_list):
+    words_and_digits_list = []
+    word_to_digit_dict = {
+        "one": "1",
+        "two": "2", 
+        "three": "3",
+        "four": "4",
+        "five": "5",
+        "six": "6", 
+        "seven": "7",
+        "eight": "8",
+        "nine": "9"
+    }
+    
+    for point in calibration_points_list:
+        for word in word_to_digit_dict.keys():
+            point = str.replace(point, word[:-1], word_to_digit_dict[word])
+        
+        words_and_digits_list.append(point)
+    
+    return words_and_digits_list
+    
+    
+
+#words_and_digits_list = words_to_digits(calibration_points_list)
+
+
+#updated_list = identify_calibration_points(words_and_digits_list)
+
+#find_digits(updated_list)
