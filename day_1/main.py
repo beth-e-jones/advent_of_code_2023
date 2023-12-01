@@ -2,19 +2,15 @@
 import pandas as pd
 import re
 
-
 # Set datapath for the input data
 DATAPATH = "input.txt"
-
 
 # Read in .txt file from the stored datapath
 calibration_points_df = pd.read_table(DATAPATH,
                                       header=None)
 
-
 # Check data read in successfully
 calibration_points_df.head()
-
 
 # Convert first column of dataframe to a list
 calibration_points_list = calibration_points_df.iloc[:, 0].tolist()
@@ -118,15 +114,15 @@ find_digits(calibration_points_list)
 def words_to_digits(calibration_points_list):
     words_and_digits_list = []
     word_to_digit_dict = {
-        "one": "1",
-        "two": "2", 
-        "three": "3",
-        "four": "4",
-        "five": "5",
-        "six": "6", 
-        "seven": "7",
-        "eight": "8",
-        "nine": "9"
+        "one": "o1",
+        "two": "t2", 
+        "three": "t3",
+        "four": "f4",
+        "five": "f5",
+        "six": "s6", 
+        "seven": "s7",
+        "eight": "e8",
+        "nine": "n9"
     }
     
     for point in calibration_points_list:
@@ -139,9 +135,12 @@ def words_to_digits(calibration_points_list):
     
     
 
-#words_and_digits_list = words_to_digits(calibration_points_list)
+def answer_2():
+    words_and_digits_list = words_to_digits(calibration_points_list)
+    dave = identify_calibration_points(words_and_digits_list)
+    find_digits(dave)
+    
+ 
+    
 
-
-#updated_list = identify_calibration_points(words_and_digits_list)
-
-#find_digits(updated_list)
+answer_2()
