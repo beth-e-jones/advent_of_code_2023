@@ -1,22 +1,34 @@
-
+# %%
 import pandas as pd
 import re
 
+# %%
 # Set datapath for the input data
 DATAPATH = "input.txt"
 
+# %%
 # Read in .txt file from the stored datapath
-calibration_points_df = pd.read_table(DATAPATH,
-                                      header=None)
+#calibration_points_df = pd.read_table(DATAPATH,
+                                     # header=None)
 
 # Check data read in successfully
-calibration_points_df.head()
+#calibration_points_df.head()
 
+# %%
+with open(DATAPATH) as f:
+    lines = f.readlines()
+
+# %%
+calibration_points_list = [line.strip("\n") for line in lines]
+
+print(type(calibration_points_list))
+
+# %%
 # Convert first column of dataframe to a list
-calibration_points_list = calibration_points_df.iloc[:, 0].tolist()
+#calibration_points_list = calibration_points_df.iloc[:, 0].tolist()
 
 
-
+# %%
 def identify_calibration_points(calibration_points_list):
     """Takes each string item in the list of calibration points and identifies
     the digits contained in the item, appends them to a list of digits, and
@@ -48,11 +60,11 @@ def identify_calibration_points(calibration_points_list):
     # Return list of calibration points for use in later functions
     return numeric_calibration_points
 
-
+# %%
 # Call the function using the input from advent of code as the list of strings        
 identify_calibration_points(calibration_points_list)
 
-
+# %%
 def find_digits(calibration_points_list):
     """Joins the separated digits found in every string into a single string of
     digits, identifies the first and last (where appplicable) number in each 
@@ -106,9 +118,10 @@ def find_digits(calibration_points_list):
               {summed_calibrations})
 
 
-
+# %%
 find_digits(calibration_points_list)
-                  
+
+# %%                
 """Part 2"""
 
 def words_to_digits(calibration_points_list):
@@ -125,22 +138,29 @@ def words_to_digits(calibration_points_list):
         "nine": "n9"
     }
     
-    for point in calibration_points_list:
-        for word in word_to_digit_dict.keys():
-            point = str.replace(point, word[:-1], word_to_digit_dict[word])
+    start_positions = {}
+    
+    for text in word_to_digit_dict.keys():
+        start_index = calibration_points_list.find(text)
+        if start_index != 1:
+            start_positions[text] = calibration_points_list.find(text)
         
-        words_and_digits_list.append(point)
+        if start_positions != {}:
+            sorted_texts = sorted(start_positions.items(), key=lambda x: x[1])
+            for sorted_text, _ in sorted_texts:
+                words_and_digits_list = str(calibration_points_list.replace(
+                    sorted_text[:-1], word_to_digit_dict[sorted_text]
+                ))
+        
+        #for occurrance in occurance_index:
+            #point = str.replace(point, word[:-1], word_to_digit_dict[word])
+       # words_and_digits_list.append(point)
     
     return words_and_digits_list
-    
-    
 
-def answer_2():
-    words_and_digits_list = words_to_digits(calibration_points_list)
-    dave = identify_calibration_points(words_and_digits_list)
-    find_digits(dave)
-    
- 
-    
-
-answer_2()
+# %%
+words_to_digits(calibration_points_list)
+ # %%   
+words_and_digits_list = words_to_digits(calibration_points_list)
+replaced_calibration_points = identify_calibration_points(words_and_digits_list)
+find_digits(replaced_calibration_points)
