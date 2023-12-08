@@ -1,4 +1,17 @@
+""""
+Resources used to solve problem
+https://python.land/introduction-to-python/python-boolean-and-operators 
+[Accessed December 2nd 2023]
+https://regexr.com/ [Accessed 2nd December 2023] 
+https://regex101.com/ [Accessed 2nd December 2023]
+https://realpython.com/replace-string-python/ [Acessed 2nd December 2023]
+https://www.programiz.com/python-programming/tuple [Accessed 2nd December 2023]
+https://www.codingrooms.com/blog/dictionary-with-for-loop-python
+[Accessed 2nd December 2023]
+"""
+
 import re
+
 
 def read_text_file(path: str) -> list[str]:
     """Read text file.
@@ -13,7 +26,7 @@ def read_text_file(path: str) -> list[str]:
 
     Returns
     -------
-    list[str]
+    list: str
         text file content.
 
     """
@@ -22,17 +35,13 @@ def read_text_file(path: str) -> list[str]:
 
 DATAPATH = "input_day_2.txt"
 
-
-# call function to read in file
 read_text_file(DATAPATH)
 
-# set maximum possible number of each block
 max_possible_blocks = {
     "red": 12,
     "green": 13,
     "blue": 14
 }
-
 
 def extract_game_details(game):
     """ Splits each line into the games contained in the line, extracts the 
@@ -56,11 +65,10 @@ def extract_game_details(game):
         Game is possible = True
 
     """
-    # Set game as possible as default
+    # Set as default to identify games not possible
     game_possible = True
-    # For each line, find the game number based on reg ex pattern
     game_id_string = re.findall(r"(Game\s\d+)", game)[0]
-    # use the pattern to strip out information apart from game number
+    # Keep only game number to convert to integer to sum later
     game_id_num = int(re.sub((r"([^\d])"),"", game_id_string))
     
     # Split the games by finding the semi-colon separating them 
@@ -80,13 +88,13 @@ def extract_game_details(game):
         blocks = game_set.split(",")
         for block in blocks:
             block = re.sub("^\s", "", block)
-            # If block colour in dictionary, count the number of blocks and 
+            # If block colour in dictionary, count nhow many and 
             # populate the dictionary
             for color in game_cubes_dict.keys():
                 if color in block:
                     count = int(re.sub((r"[^\d]"),"", block))
                     game_cubes_dict[color] = count
-        # If game blocks greater than max possible, set game_possible to false
+        # If game blocks more than max, change game_possible to false
         for color in game_cubes_dict.keys():
             if game_cubes_dict[color] > max_possible_blocks[color]:
                 game_possible = False
@@ -94,24 +102,19 @@ def extract_game_details(game):
     
     return game_id_num, game_possible
 
-# Call function to read in text file
 list_of_games = read_text_file(DATAPATH)
 
-# Create empty list for game outcomes
 game_outcomes = []
 
-# call the extract_game_details function to append game ID and outcome to list
+# extract game ID and outcome
 for game in list_of_games:
     outcome = extract_game_details(game)
     game_outcomes.append(outcome)
 
-# Create of list of success
+# Create of list of successful games based on Boolean for game_possible
 successful_games = []
 for outcome in game_outcomes:
     if outcome[1] == True:
         successful_games.append(outcome[0])
 
 print(sum(successful_games))
-
-
-#def fewest_possible_cubes()

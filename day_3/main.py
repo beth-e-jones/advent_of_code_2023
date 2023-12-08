@@ -1,7 +1,21 @@
-import re
-from math import prod
+""""
+Resources used to solve problem
+https://regexr.com/ [Accessed 3rd December 2023] 
+https://regex101.com/ [Accessed 3rd December 2023]
+https://docs.python.org/3/library/math.html [Accessed 3rd December 2023]
+https://www.w3schools.com/python/module_math.asp [Accessed 3rd December 2023]
+https://stackoverflow.com/questions/67047196/python-re-find-start-and-end-index-of-group-match
+[Accessed 3rd December 2023]
+https://www.w3schools.com/python/ref_func_enumerate.asp [Accessed 4th December 2023]
+https://pypi.org/project/parse/ [Accessed 4th December 2023]
+https://docs.python.org/3/library/re.html [Accessed 3rd December 2023]
 
-def read_text_file(path: str) -> list[str]:
+"""
+import re
+import math
+
+
+def read_text_file(path):
     """Read text file.
 
     Reads text file into a list of strings. Removes trailing new line
@@ -9,12 +23,12 @@ def read_text_file(path: str) -> list[str]:
 
     Parameters
     ----------
-    path : str
+    path : string
         path to input text file.
 
     Returns
     -------
-    list[str]
+    list: string
         text file content.
 
     """
@@ -36,7 +50,7 @@ def find_patterns(pattern):
         
     Returns
     -------
-    sum(part_numbers): Int
+    sum(part_numbers): Integer
         The sum of all integers identified that have a special character in an
         index position next to any of the digits (including diagonal)
     """
@@ -47,7 +61,7 @@ def find_patterns(pattern):
     
     for row_num, line in enumerate(pattern):
         part_numbers_in_line = []
-        # Use reg ex to identify any digits in the row
+        # Use reg ex to identify digits rather than special characters
         for numbers_in_line in re.finditer(r"\d+", line):
             # Append the grouped digits, start index, and end index
             part_numbers_in_line.append(
@@ -101,6 +115,7 @@ def find_patterns(pattern):
 # call function and print the answer        
 print(find_patterns(full_pattern))
 
+
 # Part 2
 def find_gear_ratio(pattern):
     gear_ratios = []
@@ -143,14 +158,14 @@ def find_gear_ratio(pattern):
             for row in range(min_row, max_row + 1):
                 for part_number in re.finditer(r"\d+", pattern[row][min_col:max_col]):
                     # Find and store start and end index positions
-                    start_idx  = part_number.start()
-                    end_idx = part_number.end()
-                    print(part_number.group(), start_idx, end_idx)
+                    start_index  = part_number.start()
+                    end_index = part_number.end()
+                    print(part_number.group(), start_index, end_index)
                     if (row == min_row) | (row == max_row):
                         # If index positions relative to * mean it will touch,
                         # append part number to list of part numbers
                         if (
-                            (start_idx <= 4) and (end_idx >= 3)
+                            (start_index <= 4) and (end_index >= 3)
                         ):
                             grid_part_numbers.append(int(part_number.group()))
                     else:
@@ -160,10 +175,9 @@ def find_gear_ratio(pattern):
             # if more than 2 items in each list of grid part numbers, multiply
             # both numbers and append score to list of ratios            
             if len(grid_part_numbers) == 2:
-                gear_ratios.append(prod(grid_part_numbers))
+                gear_ratios.append(math.prod(grid_part_numbers))
         
-                
-    # sum the list of ratios        
+                      
     return sum(gear_ratios)
 
 

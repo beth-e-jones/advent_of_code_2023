@@ -1,10 +1,19 @@
-import pandas as pd
+""""
+Resources used to solve problem
+https://regexr.com/ [Accessed 6th December 2023] 
+https://regex101.com/ [Accessed 6th December 2023]
+https://docs.python.org/3/library/math.html [Accessed 3rd December 2023]
+https://www.w3schools.com/python/module_math.asp [Accessed 3rd December 2023]
+
+"""
+
 import re
-import numpy as np
+import math
+
 DATAPATH = "input.txt"
 
 
-def read_text_file(path: str) -> list[str]:
+def read_text_file(path)
     """Read text file.
 
     Reads text file into a list of strings. Removes trailing new line
@@ -17,7 +26,7 @@ def read_text_file(path: str) -> list[str]:
 
     Returns
     -------
-    list[str]
+    list: string
         text file content.
 
     """
@@ -41,8 +50,9 @@ def identify_wins(results):
     
     Returns
     ----------
-    results : _type_
-        _description_
+    math.prod(wins): Integer
+        The product of number of race wins for all button start times for all
+        races.
         
     """
     # Create empty list of wins
@@ -77,6 +87,6 @@ def identify_wins(results):
         wins.append(race_wins)
     
     # Return the product of all win counts for all races
-    return np.prod(wins)
+    return math.prod(wins)
             
 identify_wins(results)

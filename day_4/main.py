@@ -1,3 +1,10 @@
+"""
+https://www.w3schools.com/python/python_operators.asp [Accessed 4th December 2023]
+https://regexr.com/ [Accessed 4th December 2023] 
+https://regex101.com/ [Accessed 4th December 2023]
+https://www.w3schools.com/python/python_sets.asp [Accessed 4th December 2023]
+"""
+
 import re
 
 # Set datapath
@@ -24,7 +31,6 @@ def read_text_file(path: str) -> list[str]:
         return [line.strip("\n") for line in f.readlines()]
     
 
-# Read in data and define full card
 full_card = read_text_file(DATAPATH)
 
 
