@@ -117,42 +117,5 @@ def expansion_coords(universe):
 
 def galaxy_distances_with_expansion(universe, expansion_factor):
     
-    if expansion_factor < 2:
-        raise ValueError("Expansion factor must be at least 2.")
-    
-    if not isinstance(expansion_factor, int):
-        raise TypeError("Expansion factor must be an integer.")
-    
-    unexpanded_galaxy_dict = find_galaxies(universe)
-    #print(unexpanded_galaxy_dict)
-    
-    rows_expand, cols_expand = expansion_coords(universe)
-    #print(rows_expand, cols_expand)
-    
-    expanded_galaxy_dict = {}
-    # To account for original spacing
-    spacing = expansion_factor - 1
-    for id, coords in unexpanded_galaxy_dict.items():
-        # print(id, coords)
-        row = coords[0]
-        col = coords[1]
-        less_than_row = []
-        less_than_col = []
-        for x in rows_expand:
-            if x < row:
-                less_than_row.append(x)
-        expand_row_by = len(less_than_row) * spacing
-        for y in cols_expand:
-            if y < col:
-                less_than_col.append(y)
-        expand_col_by = len(less_than_col) * spacing
-        expanded_galaxy_dict[id] = (
-            row + expand_row_by, col + expand_col_by
-        )
-    #print(expanded_galaxy_dict)
-
-    return total_distances(expanded_galaxy_dict)
-    
-galaxy_distances_with_expansion(universe,1000000)
-
-    
+    # pseudocode plan
+    # think about an expansion factor?
